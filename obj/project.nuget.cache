@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XSo9rILkQW0W5BozsKOsNwtbVVt+hQWHx18cQ3sccX2z2SZznvNQpzC8lH8erJpkO5SIXwaO5xCbXQiT82xaXw==",
+  "dgSpecHash": "BAfNJ/kI0MnngnCc8MFkpIfTv0sX9j4J6IE6WJLxfXBaGRlXpo4xBfsTyQ4Rz36RQU2+tV4i36lXUBIlmjdVlA==",
   "success": true,
-  "projectFilePath": "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\CardExchangeServer.csproj",
+  "projectFilePath": "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\CardExchangeServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ZYF\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],

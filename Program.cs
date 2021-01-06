@@ -33,8 +33,18 @@ namespace CardExchangeServer {
 
     //用户数据
     public class ClientData {
+        public string msg;
+        public string color;
         public Location loc;
         public DateTime time;
+    }
+
+    //服务器发回数据
+    public class ServerData {
+        public string client;
+        public string msg;
+        public string color;
+        public float distance;
     }
 
     class Program {
@@ -59,8 +69,8 @@ namespace CardExchangeServer {
 
         void Start() {
             //开始广播
-            string ip = GetLocalIPv4();
-            instance.StartBroadcast(ip);
+            //string ip = GetLocalIPv4();
+            //instance.StartBroadcast(ip);
 
             //启动服务器
             instance.StartServer();
@@ -222,10 +232,21 @@ namespace CardExchangeServer {
                     item.Value.lifeTime = DefaultLifetime;
 
                     //互相发卡
-                    string s = string.Format("搜索到用户{0} (距离{1}米)", GetIP(item.Key), distance);
+                    ServerData data1 = new ServerData();
+                    data1.client = GetIP(item.Key);
+                    data1.color = item.Value.data.color;
+                    data1.distance = distance;
+                    data1.msg = item.Value.data.msg;
+                    string s = JsonConvert.SerializeObject(data1);
                     Send(info.socket, s);
-                    s = string.Format("搜索到用户{0} (距离{1}米)", GetIP(info.socket), distance);
-                    Send(item.Key, s);
+
+                    ServerData data2 = new ServerData();
+                    data2.client = GetIP(info.socket);
+                    data2.color = info.data.color;
+                    data2.distance = distance;
+                    data2.msg = info.data.msg;
+                    string s2 = JsonConvert.SerializeObject(data2);
+                    Send(item.Key, s2);
                 }
             }
         }

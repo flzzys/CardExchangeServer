@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\CardExchangeServer.csproj": {}
+    "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\CardExchangeServer.csproj": {}
   },
   "projects": {
-    "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\CardExchangeServer.csproj": {
+    "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\CardExchangeServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\CardExchangeServer.csproj",
+        "projectUniqueName": "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\CardExchangeServer.csproj",
         "projectName": "CardExchangeServer",
-        "projectPath": "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\CardExchangeServer.csproj",
+        "projectPath": "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\CardExchangeServer.csproj",
         "packagesPath": "C:\\Users\\ZYF\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\Github\\2020.12.30\\CardExchange\\CardExchangeServer\\obj\\",
+        "outputPath": "E:\\Project\\Github\\2020.12.30\\CardExchangeServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ZYF\\AppData\\Roaming\\NuGet\\NuGet.Config",
