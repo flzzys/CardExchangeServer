@@ -225,7 +225,7 @@ namespace CardExchangeServer {
                 float distance = GetDistance(data.loc, item.Value.data.loc);
 
                 //比较位置在50米内
-                if (distance < 50) {
+                if (distance < 200) {
                     Console.WriteLine(string.Format("{0} 距离{1}米", GetIP(item.Key), distance));
 
                     //重置剩余时间
