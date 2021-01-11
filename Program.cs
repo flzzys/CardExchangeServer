@@ -188,6 +188,7 @@ namespace CardExchangeServer {
         void RemoveClient(ClientInfo info) {
             Console.WriteLine(string.Format("客户端{0}超过时限已被移除", GetIP(info.socket)));
 
+            info.socket.Close();
             clientInfoDic.Remove(info.socket);
         }
 
