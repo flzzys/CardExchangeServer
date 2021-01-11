@@ -58,7 +58,7 @@ namespace CardExchangeServer {
 
         static Program instance;
 
-        const float DefaultLifetime = 8;
+        const float DefaultLifetime = 5;
 
         //开始
         static void Main(string[] args) {
