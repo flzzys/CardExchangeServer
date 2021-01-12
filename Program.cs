@@ -130,13 +130,22 @@ namespace CardExchangeServer {
             //Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
             //输出文本
-            foreach (var item in stringList) {
+            for (int i = 0; i < stringList.Count; i++) {
+                var item = stringList[i];
+
                 Console.ForegroundColor = item.color;
                 Console.WriteLine(item.msg.PadRight(50));
                 Console.ForegroundColor = ConsoleColor.White;
 
                 currentLineCount++;
             }
+            //foreach (var item in stringList) {
+            //    Console.ForegroundColor = item.color;
+            //    Console.WriteLine(item.msg.PadRight(50));
+            //    Console.ForegroundColor = ConsoleColor.White;
+
+            //    currentLineCount++;
+            //}
         }
 
         #region 服务器相关
@@ -269,16 +278,16 @@ namespace CardExchangeServer {
 
         //当收到消息
         void OnReceiveMsg(ClientInfo info, string msg) {
-            //没有其他客户端，忽略（暂时如此
-            if(clientInfoDic.Count <= 1) {
-                return;
-            }
-
             //转换为客户端数据
             ClientData data = JsonConvert.DeserializeObject<ClientData>(msg);
 
             //加入客户端列表
             info.data = data;
+
+            //没有其他客户端，忽略（暂时如此
+            if (clientInfoDic.Count <= 1) {
+                return;
+            }
 
             string clientData = "";
 
@@ -289,8 +298,9 @@ namespace CardExchangeServer {
                     continue;
                 }
 
-                if (i.data == null)
+                if (i.data == null) {
                     continue;
+                }
 
                 float distance = GetDistance(data.loc, i.data.loc);
 
@@ -329,9 +339,13 @@ namespace CardExchangeServer {
                     Print("群发:" + GetIP(i.socket) + ":" + s2);
                 }
             }
-            Print("消息发送者:" + GetIP(info.socket) + ":" + clientData);
 
-            Send(info.socket, clientData);
+            if(clientData != "") {
+                Print("消息发送者:" + GetIP(info.socket) + ":" + clientData);
+
+                Send(info.socket, clientData);
+            }
+            
         }
 
         //发送消息
