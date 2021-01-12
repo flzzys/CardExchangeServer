@@ -297,7 +297,7 @@ namespace CardExchangeServer {
                 info.lifeTime = DefaultLifetime;
 
                 //比较位置在50米内
-                if (distance < 500) {
+                if (true/*distance < 500*/) {
                     //Print(string.Format("{0} 距离{1}米", GetIP(i.socket), distance));
 
                     //重置剩余时间
