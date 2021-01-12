@@ -107,28 +107,28 @@ namespace CardExchangeServer {
 
         //输出消息
         void UpdateLog() {
-            Console.SetCursorPosition(0, 0);
-            //清屏
-            for (int i = 0; i < currentLineCount; i++) {
-                Console.WriteLine("".PadRight(50));
-            }
-            currentLineCount = 0;
+            //Console.SetCursorPosition(0, 0);
+            ////清屏
+            //for (int i = 0; i < currentLineCount; i++) {
+            //    Console.WriteLine("".PadRight(50));
+            //}
+            //currentLineCount = 0;
 
-            Console.SetCursorPosition(0, 0);
-            Console.ForegroundColor = ConsoleColor.Green;
-            //输出服务器信息
-            if (clientInfoDic.Count > 0) {
-                foreach (var info in clientInfoDic.Values) {
-                    string str = string.Format("{0}    {1}    剩余时间:{2}", GetIP(info.socket), "连接中", info.lifeTime);
-                    Console.WriteLine(str.PadRight(50));
+            //Console.SetCursorPosition(0, 0);
+            //Console.ForegroundColor = ConsoleColor.Green;
+            ////输出服务器信息
+            //if (clientInfoDic.Count > 0) {
+            //    foreach (var info in clientInfoDic.Values) {
+            //        string str = string.Format("{0}    {1}    剩余时间:{2}", GetIP(info.socket), "连接中", info.lifeTime);
+            //        Console.WriteLine(str.PadRight(50));
 
-                    currentLineCount++;
-                }
-                Console.WriteLine("=======================================".PadRight(50));
-                currentLineCount++;
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-
+            //        currentLineCount++;
+            //    }
+            //    Console.WriteLine("=======================================".PadRight(50));
+            //    currentLineCount++;
+            //}
+            //Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
             //输出文本
             foreach (var item in stringList) {
                 Console.ForegroundColor = item.color;
@@ -269,6 +269,11 @@ namespace CardExchangeServer {
 
         //当收到消息
         void OnReceiveMsg(ClientInfo info, string msg) {
+            //没有其他客户端，忽略（暂时如此
+            if(clientInfoDic.Count <= 1) {
+                return;
+            }
+
             //转换为客户端数据
             ClientData data = JsonConvert.DeserializeObject<ClientData>(msg);
 
@@ -305,10 +310,11 @@ namespace CardExchangeServer {
                     data1.distance = distance;
                     data1.msg = i.data.msg;
                     string s = JsonConvert.SerializeObject(data1);
-                    if(clientData != "") {
-                        clientData += "|";
-                    }
+                    //if(clientData != "") {
+                    //    clientData += "|";
+                    //}
                     clientData += s;
+                    clientData += "|";
                     //Send(info.socket, s);
 
                     ServerData data2 = new ServerData();
@@ -317,10 +323,14 @@ namespace CardExchangeServer {
                     data2.distance = distance;
                     data2.msg = info.data.msg;
                     string s2 = JsonConvert.SerializeObject(data2);
+                    s2 += "|";
                     Send(i.socket, s2);
+
+                    //Print(GetIP(i.socket) + ":" + s2);
                 }
             }
-            
+            Print(GetIP(info.socket) + ":" + clientData);
+
             Send(info.socket, clientData);
         }
 
