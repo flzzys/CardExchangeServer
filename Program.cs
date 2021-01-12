@@ -99,6 +99,14 @@ namespace CardExchangeServer {
             //接收信息
             UpdateReceiveMsg();
 
+            //输出消息
+            UpdateLog();
+        }
+
+        int currentLineCount;
+
+        //输出消息
+        void UpdateLog() {
             Console.SetCursorPosition(0, 0);
             //清屏
             for (int i = 0; i < currentLineCount; i++) {
@@ -131,8 +139,6 @@ namespace CardExchangeServer {
             }
         }
 
-        int currentLineCount;
-
         #region 服务器相关
 
         //启动服务器
@@ -159,32 +165,48 @@ namespace CardExchangeServer {
         void UpdateReceiveMsg() {
             foreach (var info in clientInfoDic.Values) {
                 Socket client = info.socket;
-
-                if (client == null)
-                    return;
-
                 //有东西可接收
                 if (client.Poll(0, SelectMode.SelectRead)) {
-                    byte[] readBuffer = new byte[1024];
-                    int count = client.Receive(readBuffer);
-
-                    string ip = GetIP(client);
-
-                    //收到信息小于等于0，代表客户端关闭
-                    if (count <= 0) {
-                        clientInfoDic.Remove(info.socket);
-                        info.socket.Close();
-
-                        Print(string.Format(string.Format("客户端{0}已离线", ip)), ConsoleColor.Red);
-
-                        return;
+                    //如果有客户端离线就Break
+                    if (!ReceiveMsg(info)) {
+                        break;
                     }
-
-                    string receiveStr = System.Text.Encoding.Default.GetString(readBuffer, 0, count);
-
-                    OnReceiveMsg(info, receiveStr);
                 }
             }
+        }
+
+        //接收消息（如果有客户端离线返回false）
+        bool ReceiveMsg(ClientInfo info) {
+            Socket client = info.socket;
+            int count;
+
+            try {
+                count = client.Receive(info.readBuffer);
+            } catch (Exception e) {
+                RemoveClient(info);
+
+                Print("接收异常:" + e, ConsoleColor.Red);
+
+                return false;
+            }
+
+            string ip = GetIP(client);
+
+            //收到信息小于等于0，代表客户端关闭
+            if (count <= 0) {
+                RemoveClient(info);
+
+
+                Print(string.Format(string.Format("客户端{0}已离线", ip)), ConsoleColor.DarkRed);
+
+                return false;
+            }
+
+            //接收消息
+            string receiveStr = System.Text.Encoding.Default.GetString(info.readBuffer, 0, count);
+            OnReceiveMsg(info, receiveStr);
+
+            return true;
         }
 
         //更新客户端剩余时间
@@ -218,7 +240,7 @@ namespace CardExchangeServer {
 
         //当接收客户端
         void OnReceiveClient(Socket client) {
-            Print(string.Format(string.Format("客户端{0}已加入", GetIP(client))), ConsoleColor.Blue);
+            Print(string.Format(string.Format("客户端{0}已加入", GetIP(client))), ConsoleColor.Green);
 
             //新增客户信息
             ClientInfo info = new ClientInfo() { socket = client, lifeTime = DefaultLifetime };
