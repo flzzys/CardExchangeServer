@@ -91,7 +91,7 @@ namespace CardExchangeServer {
 
         private void Update() {
             //接收客户端
-            UpdateAcceptClient();
+            //UpdateAcceptClient();
 
             //更新客户端剩余时间
             UpdateClientLifeTime();
@@ -149,6 +149,9 @@ namespace CardExchangeServer {
             server.Bind(iep);
             server.Listen(0);
 
+            //开始监听
+            server.BeginAccept(AcceptCallback, server);
+
             Print(string.Format("服务器启动! (IP: {0})", GetLocalIPv4()), ConsoleColor.Yellow);
         }
 
@@ -158,6 +161,23 @@ namespace CardExchangeServer {
                 Socket client = server.Accept();
 
                 OnReceiveClient(client);
+            }
+        }
+
+        //接收客户端
+        void AcceptCallback(IAsyncResult ar) {
+            try {
+                Socket server = (Socket)ar.AsyncState;
+                Socket client = server.EndAccept(ar);
+
+                //Console.WriteLine(string.Format(string.Format("{0}已加入", GetIP(client))));
+                OnReceiveClient(client);
+
+                //继续监听
+                server.BeginAccept(AcceptCallback, server);
+
+            } catch (Exception e) {
+                Console.WriteLine(e);
             }
         }
 
