@@ -326,10 +326,10 @@ namespace CardExchangeServer {
                     s2 += "|";
                     Send(i.socket, s2);
 
-                    //Print(GetIP(i.socket) + ":" + s2);
+                    Print("群发:" + GetIP(i.socket) + ":" + s2);
                 }
             }
-            Print(GetIP(info.socket) + ":" + clientData);
+            Print("消息发送者:" + GetIP(info.socket) + ":" + clientData);
 
             Send(info.socket, clientData);
         }
