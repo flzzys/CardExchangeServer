@@ -320,7 +320,7 @@ namespace CardExchangeServer {
                     Send(i.socket, s2);
                 }
             }
-
+            Print(clientData);
             Send(info.socket, clientData);
         }
 
