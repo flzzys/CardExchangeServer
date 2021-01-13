@@ -107,28 +107,29 @@ namespace CardExchangeServer {
 
         //输出消息
         void UpdateLog() {
-            //Console.SetCursorPosition(0, 0);
-            ////清屏
-            //for (int i = 0; i < currentLineCount; i++) {
-            //    Console.WriteLine("".PadRight(50));
-            //}
-            //currentLineCount = 0;
+            Console.SetCursorPosition(0, 0);
+            //清屏
+            for (int i = 0; i < currentLineCount; i++) {
+                Console.WriteLine("".PadRight(50));
+            }
+            currentLineCount = 0;
 
-            //Console.SetCursorPosition(0, 0);
-            //Console.ForegroundColor = ConsoleColor.Green;
-            ////输出服务器信息
-            //if (clientInfoDic.Count > 0) {
-            //    foreach (var info in clientInfoDic.Values) {
-            //        string str = string.Format("{0}    {1}    剩余时间:{2}", GetIP(info.socket), "连接中", info.lifeTime);
-            //        Console.WriteLine(str.PadRight(50));
+            Console.SetCursorPosition(0, 0);
+            Console.ForegroundColor = ConsoleColor.Green;
+            //输出服务器信息
+            if (clientInfoDic.Count > 0) {
+                foreach (var info in clientInfoDic.Values) {
+                    string str = string.Format("{0}    {1}    剩余时间:{2}", GetIP(info.socket), "连接中", info.lifeTime);
+                    Console.WriteLine(str.PadRight(50));
 
-            //        currentLineCount++;
-            //    }
-            //    Console.WriteLine("=======================================".PadRight(50));
-            //    currentLineCount++;
-            //}
-            //Console.ForegroundColor = ConsoleColor.White;
-            Console.Clear();
+                    currentLineCount++;
+                }
+                Console.WriteLine("=======================================".PadRight(50));
+                currentLineCount++;
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+
+            //Console.Clear();
             //输出文本
             for (int i = 0; i < stringList.Count; i++) {
                 var item = stringList[i];
@@ -139,13 +140,6 @@ namespace CardExchangeServer {
 
                 currentLineCount++;
             }
-            //foreach (var item in stringList) {
-            //    Console.ForegroundColor = item.color;
-            //    Console.WriteLine(item.msg.PadRight(50));
-            //    Console.ForegroundColor = ConsoleColor.White;
-
-            //    currentLineCount++;
-            //}
         }
 
         #region 服务器相关
@@ -165,13 +159,13 @@ namespace CardExchangeServer {
         }
 
         //接收客户端
-        void UpdateAcceptClient() {
-            if (server.Poll(0, SelectMode.SelectRead)) {
-                Socket client = server.Accept();
+        //void UpdateAcceptClient() {
+        //    if (server.Poll(0, SelectMode.SelectRead)) {
+        //        Socket client = server.Accept();
 
-                OnReceiveClient(client);
-            }
-        }
+        //        OnReceiveClient(client);
+        //    }
+        //}
 
         //接收客户端
         void AcceptCallback(IAsyncResult ar) {
@@ -233,6 +227,7 @@ namespace CardExchangeServer {
 
             //接收消息
             string receiveStr = System.Text.Encoding.Default.GetString(info.readBuffer, 0, count);
+                //Print(receiveStr, ConsoleColor.Red);
             OnReceiveMsg(info, receiveStr);
 
             return true;
@@ -269,6 +264,17 @@ namespace CardExchangeServer {
 
         //当接收客户端
         void OnReceiveClient(Socket client) {
+
+            //如果是已存在的客户
+            //foreach (var item in clientInfoDic.Values) {
+            //    if(GetIP(item.socket) == GetIP(client.sock) && 
+            //        item) {
+            //        Print("接入已存在的客户端");
+
+            //        return;
+            //    }
+            //}
+
             Print(string.Format(string.Format("客户端{0}已加入", GetIP(client))), ConsoleColor.Green);
 
             //新增客户信息
@@ -336,12 +342,12 @@ namespace CardExchangeServer {
                     s2 += "|";
                     Send(i.socket, s2);
 
-                    Print("群发:" + GetIP(i.socket) + ":" + s2);
+                    //Print("群发:" + GetIP(i.socket) + ":" + s2);
                 }
             }
 
             if(clientData != "") {
-                Print("消息发送者:" + GetIP(info.socket) + ":" + clientData);
+                //Print("消息发送者:" + GetIP(info.socket) + ":" + clientData);
 
                 Send(info.socket, clientData);
             }
