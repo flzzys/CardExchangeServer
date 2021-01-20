@@ -173,7 +173,7 @@ namespace CardExchangeServer {
                 Socket server = (Socket)ar.AsyncState;
                 Socket client = server.EndAccept(ar);
 
-                //Console.WriteLine(string.Format(string.Format("{0}已加入", GetIP(client))));
+                Console.WriteLine(string.Format(string.Format("{0}已加入", GetIP(client))));
                 OnReceiveClient(client);
 
                 //继续监听
